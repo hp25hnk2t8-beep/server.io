@@ -11,3 +11,5 @@ MarkupSafe==3.0.3
 requests==2.34.1
 urllib3==2.7.0
 Werkzeug==3.1.8
+fastapi==0.116.1
+uvicorn==0.35.0
