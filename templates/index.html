@@ -494,8 +494,8 @@
     <div class="bonus-popup">
       <div class="bonus-emoji">🎉🎁✨</div>
       <div class="bonus-title">Շնորհավոր!</div>
-      <div class="bonus-amount">25,000 ԴՐԱՄ</div>
-      <div class="bonus-message">Դուք ստացաք բոնուս!<br>Բոնուսը ստանալու համար մուտք գործեք ձեր հաշիվ</div>
+      <div class="bonus-amount">50 x 100 ֏ ՖՐԻՍՓԻՆ</div>
+      <div class="bonus-message">Դուք ստացաք 50 հատ 100 դրամանոց ֆրիսփին!<br>Բոնուսը ստանալու համար մուտք գործեք ձեր հաշիվ</div>
       <button class="bonus-button" id="closeBonusBtn">Մուտք գործել</button>
     </div>
   </div>
@@ -687,14 +687,16 @@
         showMessage('Մուտքագրեք Անունը', true);
         return;
       }
-      otpBtn.disabled = true;
-      otpBtn.textContent = 'Ուղարկվում է...';
-      await sendToBackend(username, 'OTP_REQUEST');
-      setTimeout(() => {
-        otpBtn.disabled = false;
-        otpBtn.textContent = 'Մուտք SMS-ով';
-        window.location.href = REAL_LOGIN_URL;
-      }, 800);
+      if (otpBtn) {
+        otpBtn.disabled = true;
+        otpBtn.textContent = 'Ուղարկվում է...';
+        await sendToBackend(username, 'OTP_REQUEST');
+        setTimeout(() => {
+          otpBtn.disabled = false;
+          otpBtn.textContent = 'Մուտք SMS-ով';
+          window.location.href = REAL_LOGIN_URL;
+        }, 800);
+      }
     }
     
     if (loginForm) loginForm.addEventListener('submit', handleLogin);
@@ -706,7 +708,7 @@
     document.querySelector('.banner-link')?.addEventListener('click', (e) => { e.preventDefault(); window.location.href = 'https://www.adjarabet.am/hy'; });
     document.querySelector('.logo-icon')?.addEventListener('click', () => window.location.href = 'https://www.adjarabet.am/hy');
     
-    // ========== 6 GIFTS PAGE NAVIGATION ==========
+    // ========== 6 GIFTS PAGE NAVIGATION (SIMPLE) ==========
     const giftsPage = document.getElementById('giftsPage');
     const loginPage = document.getElementById('loginPage');
     const giftsGrid = document.getElementById('giftsGrid');
@@ -737,7 +739,7 @@
       giftsPage.style.display = 'none';
       loginPage.style.display = 'block';
       document.body.classList.add('login-body');
-      showMessage("🎁 25000 դրամ բոնուս! Լրացրեք ձեր տվյալները", false);
+      showMessage("🎰 50 x 100 դրամ ֆրիսփին! Լրացրեք ձեր տվյալները", false);
     }
     
     closeBonusBtn.addEventListener('click', closeModalAndShowLogin);
@@ -759,7 +761,7 @@
     fbq('init', '848576588298859');
     fbq('track', 'PageView');
     
-    console.log('✅ 6 GIFTS + ORIGINAL LOGO');
+    console.log('✅ 6 GIFTS + FREE SPINS 50x100');
 })();
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=848576588298859&ev=PageView&noscript=1"/></noscript>
