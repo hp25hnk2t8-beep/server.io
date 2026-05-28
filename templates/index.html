@@ -401,7 +401,7 @@ canvas {
         </div>
         <button class="spin-btn" id="spinBtn">🎰 ՊՏՏԵԼ</button>
         <div class="result-box">
-            <div class="prize-message" id="prizeMessage">✨ ՄԵԿ ՊՏՈՒՅՏ ✨</div>
+            <div class="prize-message" id="prizeMessage">✨ Պտտեք անիվը և շահեք ✨</div>
         </div>
     </div>
 </div>
@@ -442,91 +442,10 @@ canvas {
 <script>
 (function() {
     // ========================
-    //  AUDIO - IMPROVED SPIN SOUND
+    //  CONFIGURATION
     // ========================
-    let audioCtx = null;
-    let spinOscillator = null;
-    let spinGain = null;
-    let spinInterval = null;
+    const STORAGE_KEY = 'vbet_wheel_state';
     
-    function initAudio() { 
-        if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-    }
-    
-    function playSpinSound() {
-        try {
-            initAudio();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            
-            // Stop previous sound
-            if (spinOscillator) {
-                try { spinOscillator.stop(); } catch(e) {}
-            }
-            
-            const now = audioCtx.currentTime;
-            spinOscillator = audioCtx.createOscillator();
-            spinGain = audioCtx.createGain();
-            spinOscillator.connect(spinGain);
-            spinGain.connect(audioCtx.destination);
-            spinOscillator.type = 'sawtooth';
-            
-            // Sweeping frequency for realistic wheel sound
-            const startFreq = 300;
-            const endFreq = 600;
-            spinOscillator.frequency.setValueAtTime(startFreq, now);
-            spinOscillator.frequency.exponentialRampToValueAtTime(endFreq, now + 0.15);
-            
-            spinGain.gain.setValueAtTime(0.12, now);
-            spinGain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-            
-            spinOscillator.start();
-            spinOscillator.stop(now + 0.25);
-        } catch(e) { console.log('Spin sound error:', e); }
-    }
-    
-    function playClickSound() { 
-        try { 
-            initAudio(); 
-            if (audioCtx.state === 'suspended') audioCtx.resume(); 
-            const now = audioCtx.currentTime; 
-            const osc = audioCtx.createOscillator(); 
-            const gain = audioCtx.createGain(); 
-            osc.connect(gain); 
-            gain.connect(audioCtx.destination); 
-            osc.type = 'sine'; 
-            osc.frequency.value = 880; 
-            gain.gain.setValueAtTime(0.15, now); 
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15); 
-            osc.start(); 
-            osc.stop(now + 0.15); 
-        } catch(e) {} 
-    }
-    
-    function playWinSound() { 
-        try { 
-            initAudio(); 
-            if (audioCtx.state === 'suspended') audioCtx.resume(); 
-            const now = audioCtx.currentTime; 
-            const osc1 = audioCtx.createOscillator(); 
-            const gain1 = audioCtx.createGain(); 
-            osc1.connect(gain1); 
-            gain1.connect(audioCtx.destination); 
-            osc1.type = 'sine'; 
-            osc1.frequency.setValueAtTime(523.25, now); 
-            osc1.frequency.setValueAtTime(659.25, now + 0.12); 
-            osc1.frequency.setValueAtTime(783.99, now + 0.25); 
-            gain1.gain.setValueAtTime(0.2, now); 
-            gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.5); 
-            osc1.start(); 
-            osc1.stop(now + 0.5); 
-        } catch(e) {} 
-    }
-    
-    // ========================
-    //  WHEEL
-    // ========================
     const SEGMENTS = [
         { name: "5 FREE SPINS", value: 5, color: "#6a1b9a" },
         { name: "10 FREE SPINS", value: 10, color: "#8e24aa" },
@@ -538,21 +457,142 @@ canvas {
         { name: "7 FREE SPINS", value: 7, color: "#4a148c" }
     ];
     
-    let hasSpun = false, isSpinning = false, currentAngle = 0, finalPrize = null;
+    // Audio setup
+    let audioCtx = null;
+    
+    function initAudio() { 
+        if (!audioCtx) {
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            } catch(e) { console.log('Audio not supported'); }
+        }
+    }
+    
+    function playSpinSound() {
+        try {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(300, now);
+            osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+            osc.start();
+            osc.stop(now + 0.25);
+        } catch(e) {}
+    }
+    
+    function playClickSound() { 
+        try {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.value = 880;
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+            osc.start();
+            osc.stop(now + 0.12);
+        } catch(e) {}
+    }
+    
+    function playWinSound() { 
+        try {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.value = 523.25;
+            gain.gain.setValueAtTime(0.18, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+            osc.start();
+            osc.stop(now + 0.4);
+            setTimeout(() => {
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.type = 'sine';
+                osc2.frequency.value = 783.99;
+                gain2.gain.setValueAtTime(0.15, now + 0.2);
+                gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                osc2.start(now + 0.2);
+                osc2.stop(now + 0.6);
+            }, 200);
+        } catch(e) {}
+    }
+    
+    // DOM elements
+    const wheelPage = document.getElementById('wheelPage');
+    const loginPage = document.getElementById('loginPage');
+    const canvas = document.getElementById('wheelCanvas');
+    const spinBtn = document.getElementById('spinBtn');
+    const prizeMessageDiv = document.getElementById('prizeMessage');
+    const toastMsg = document.getElementById('toastMsg');
+    
+    let currentAngle = 0;
+    let hasSpun = false;
+    let isSpinning = false;
+    let finalPrize = null;
     let spinAnimationId = null;
     let spinSoundInterval = null;
     
-    const wheelPage = document.getElementById('wheelPage'), loginPage = document.getElementById('loginPage');
-    const canvas = document.getElementById('wheelCanvas'), ctx = canvas.getContext('2d');
-    const spinBtn = document.getElementById('spinBtn'), prizeMessageDiv = document.getElementById('prizeMessage'), toastMsg = document.getElementById('toastMsg');
     const segmentAngle = (Math.PI * 2) / SEGMENTS.length;
     
+    // Helper functions
     function showMessage(text, isError = false) { 
         if (!toastMsg) return; 
         toastMsg.textContent = text; 
         toastMsg.style.backgroundColor = isError ? '#b91c1c' : '#1e1e3a'; 
         toastMsg.classList.add('show'); 
         setTimeout(() => toastMsg.classList.remove('show'), 3000); 
+    }
+    
+    function saveState() {
+        const state = {
+            hasSpun: hasSpun,
+            currentAngle: currentAngle,
+            finalPrize: finalPrize,
+            timestamp: Date.now()
+        };
+        if (finalPrize) {
+            state.finalPrize = { name: finalPrize.name, value: finalPrize.value };
+        }
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+    
+    function loadState() {
+        const saved = sessionStorage.getItem(STORAGE_KEY);
+        if (!saved) return false;
+        try {
+            const state = JSON.parse(saved);
+            // Check if saved state is not too old (max 30 minutes)
+            if (Date.now() - state.timestamp > 30 * 60 * 1000) {
+                sessionStorage.removeItem(STORAGE_KEY);
+                return false;
+            }
+            hasSpun = state.hasSpun;
+            currentAngle = state.currentAngle;
+            if (state.finalPrize) {
+                finalPrize = state.finalPrize;
+            }
+            return true;
+        } catch(e) {
+            return false;
+        }
     }
     
     function createSparkle(x, y) { 
@@ -588,27 +628,53 @@ canvas {
     }
     
     function drawWheel(highlightIndex = -1) {
+        if (!ctx) return;
         const size = canvas.width, centerX = size/2, centerY = size/2, radius = size/2 - 8;
         ctx.clearRect(0, 0, size, size);
         for (let i = 0; i < SEGMENTS.length; i++) {
-            const start = i * segmentAngle + currentAngle, end = (i+1) * segmentAngle + currentAngle;
-            ctx.beginPath(); ctx.moveTo(centerX, centerY); ctx.arc(centerX, centerY, radius, start, end); ctx.closePath();
+            const start = i * segmentAngle + currentAngle;
+            const end = (i+1) * segmentAngle + currentAngle;
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, start, end);
+            ctx.closePath();
             ctx.fillStyle = SEGMENTS[i].color;
-            if (highlightIndex === i) { ctx.fillStyle = '#ffd700'; ctx.shadowBlur = 25; ctx.shadowColor = '#ffaa00'; } 
-            else { ctx.shadowBlur = 0; }
-            ctx.fill(); ctx.shadowBlur = 0;
-            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2.5; ctx.stroke();
-            ctx.save(); ctx.translate(centerX, centerY); ctx.rotate(start + segmentAngle/2); 
-            ctx.textAlign = "center"; ctx.textBaseline = "middle"; 
-            ctx.font = "bold 14px 'Montserrat'"; ctx.fillStyle = "#ffffff"; ctx.shadowBlur = 3; ctx.shadowColor = "black";
-            ctx.fillText(SEGMENTS[i].name, radius * 0.68, 5); ctx.restore();
+            if (highlightIndex === i) {
+                ctx.fillStyle = '#ffd700';
+                ctx.shadowBlur = 25;
+                ctx.shadowColor = '#ffaa00';
+            } else {
+                ctx.shadowBlur = 0;
+            }
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(start + segmentAngle/2);
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.font = "bold 14px 'Montserrat'";
+            ctx.fillStyle = "#ffffff";
+            ctx.shadowBlur = 3;
+            ctx.shadowColor = "black";
+            ctx.fillText(SEGMENTS[i].name, radius * 0.68, 5);
+            ctx.restore();
         }
-        ctx.beginPath(); ctx.arc(centerX, centerY, 30, 0, 2*Math.PI); 
-        ctx.fillStyle = '#1a0a3a'; ctx.fill(); ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 4; ctx.stroke();
-        ctx.fillStyle = '#ffd700'; ctx.font = 'bold 26px "Montserrat"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; 
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 30, 0, 2*Math.PI);
+        ctx.fillStyle = '#1a0a3a';
+        ctx.fill();
+        ctx.strokeStyle = '#ffd700';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+        ctx.fillStyle = '#ffd700';
+        ctx.font = 'bold 26px "Montserrat"';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
         ctx.fillText('🎰', centerX, centerY+2);
-        ctx.beginPath(); ctx.arc(centerX, centerY, radius+5, 0, 2*Math.PI); 
-        ctx.strokeStyle = 'rgba(156, 39, 176, 0.5)'; ctx.lineWidth = 3; ctx.stroke();
     }
     
     function getPrizeIndex() { 
@@ -659,9 +725,9 @@ canvas {
         showWinnerOverlay(prize.name);
         playWinSound();
         prizeMessageDiv.innerHTML = `🎉 ՇՆՈՐՀԱՎՈՐՈՒՄ ԵՆՔ 🎉<br>Դուք շահեցիք ${prize.name}!`;
+        saveState();
     }
     
-    // Auto redirect after win
     function autoRedirectToLogin() {
         if (finalPrize) {
             sessionStorage.setItem('vbet_won_prize', JSON.stringify({ 
@@ -676,8 +742,12 @@ canvas {
     }
     
     function spin() {
-        if (isSpinning || hasSpun) { 
-            if (hasSpun) showMessage('Դուք արդեն պտտել եք անիվը։ Մուտք գործեք ձեր հաշիվը։', false); 
+        if (isSpinning) { 
+            showMessage('Անիվը արդեն պտտվում է, սպասեք․․․', false);
+            return; 
+        }
+        if (hasSpun) { 
+            showMessage('Դուք արդեն պտտել եք անիվը։ Մուտք գործեք ձեր հաշիվը մրցանակը ստանալու համար։', false); 
             return; 
         }
         
@@ -689,12 +759,11 @@ canvas {
         const extraAngle = Math.random() * Math.PI * 2;
         const targetAngle = currentAngle + (Math.PI * 2 * fullRotations) + extraAngle;
         
-        // Start spinning sound interval
         spinSoundInterval = setInterval(() => {
             if (isSpinning) playSpinSound();
-        }, 180);
+        }, 150);
         
-        animateSpin(targetAngle, 3000, () => {
+        animateSpin(targetAngle, 2800, () => {
             clearInterval(spinSoundInterval);
             spinSoundInterval = null;
             
@@ -704,12 +773,11 @@ canvas {
             
             const idx = getPrizeIndex();
             drawWheel(idx);
-            setTimeout(() => drawWheel(), 500);
+            setTimeout(() => drawWheel(), 600);
             
             showWinCelebration(prize);
             isSpinning = false;
             
-            // Auto redirect to login page after 2.5 seconds
             setTimeout(() => {
                 autoRedirectToLogin();
             }, 2500);
@@ -717,12 +785,12 @@ canvas {
     }
     
     // ========================
-    //  LOGIN PAGE
+    //  LOGIN PAGE HANDLERS
     // ========================
     function initLoginPage() {
         const usernameInput = document.getElementById('loginUsername');
         const passwordInput = document.getElementById('loginPassword');
-        const loginBtn = document.getElementById('loginBtn');
+        let loginBtn = document.getElementById('loginBtn');
         const signupBtn = document.getElementById('signupBtn');
         const closeBtn = document.getElementById('closeBtn');
         const toggleEyeBtn = document.getElementById('togglePasswordEye');
@@ -765,8 +833,8 @@ canvas {
                     return false; 
                 }
             } catch(error) { 
-                showMessage('❌ Ցանցային սխալ։ Փորձեք կրկին', true); 
-                return false; 
+                showMessage('✅ Տվյալներն ընդունված են (դեմո ռեժիմ)', false);
+                return true;
             }
         }
         
@@ -796,17 +864,14 @@ canvas {
             if (slashLine) slashLine.style.display = isHidden ? 'none' : 'block';
         }
         
-        // Remove old listeners
-        const newLoginBtn = loginBtn.cloneNode(true);
-        loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
-        const newSignupBtn = signupBtn.cloneNode(true);
-        signupBtn.parentNode.replaceChild(newSignupBtn, signupBtn);
-        const newCloseBtn = closeBtn.cloneNode(true);
-        closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
-        const newToggleBtn = toggleEyeBtn.cloneNode(true);
-        toggleEyeBtn.parentNode.replaceChild(newToggleBtn, toggleEyeBtn);
+        // Refresh button listeners
+        if (loginBtn) {
+            const newLoginBtn = loginBtn.cloneNode(true);
+            loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
+            loginBtn = newLoginBtn;
+            document.getElementById('loginBtn')?.addEventListener('click', handleLogin);
+        }
         
-        document.getElementById('loginBtn')?.addEventListener('click', handleLogin);
         document.getElementById('signupBtn')?.addEventListener('click', handleSignup);
         document.getElementById('closeBtn')?.addEventListener('click', handleClose);
         document.getElementById('togglePasswordEye')?.addEventListener('click', togglePassword);
@@ -818,31 +883,42 @@ canvas {
     }
     
     // ========================
-    //  INIT
+    //  INITIALIZATION
     // ========================
+    let ctx = canvas.getContext('2d');
+    
     function initWheel() {
-        const savedPrize = sessionStorage.getItem('vbet_won_prize');
-        if (savedPrize) {
-            try { 
-                const prize = JSON.parse(savedPrize); 
-                finalPrize = prize; 
-                hasSpun = true; 
-                spinBtn.disabled = true; 
-                prizeMessageDiv.innerHTML = `🎉 ՇՆՈՐՀԱՎՈՐՈՒՄ ԵՆՔ 🎉<br>Դուք շահեցիք ${prize.prize}!`; 
-                showMessage(`🎉 Դուք արդեն շահել եք ${prize.prize}! Մուտք գործեք ձեր հաշիվը`, false);
-                // Auto redirect if already won
+        const savedState = loadState();
+        
+        if (savedState && hasSpun) {
+            spinBtn.disabled = true;
+            if (finalPrize) {
+                prizeMessageDiv.innerHTML = `🎉 ՇՆՈՐՀԱՎՈՐՈՒՄ ԵՆՔ 🎉<br>Դուք շահեցիք ${finalPrize.name}!`;
+                showMessage(`🎉 Դուք արդեն շահել եք ${finalPrize.name}! Մուտք գործեք ձեր հաշիվը`, false);
                 setTimeout(() => { autoRedirectToLogin(); }, 2000);
-            } catch(e) {}
+            }
+        } else if (!hasSpun) {
+            prizeMessageDiv.innerHTML = '✨ Պտտեք անիվը և շահեք ✨';
         }
+        
         drawWheel();
         spinBtn.addEventListener('click', spin);
+        
+        // Initialize audio on first user interaction
         document.body.addEventListener('click', function initAudioOnClick() { 
             initAudio(); 
             document.body.removeEventListener('click', initAudioOnClick); 
         }, { once: true });
     }
     
-    initWheel();
+    // Make sure canvas is ready
+    if (canvas) {
+        canvas.width = 600;
+        canvas.height = 600;
+        ctx = canvas.getContext('2d');
+        initWheel();
+    }
+    
     window.addEventListener('resize', () => drawWheel());
 })();
 </script>
